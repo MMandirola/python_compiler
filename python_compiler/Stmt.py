@@ -40,7 +40,8 @@ class IfThenElse(Stmt):
 		if self.condition.eval(state): 
 			self.ifBody.eval(state) 
 		else:
-			self.elseBody.eval(state) 
+			self.elseBody.eval(state)
+		return state
 
 class While(Stmt):
 	def __init__(self, condition, whileBody):
@@ -53,5 +54,16 @@ class While(Stmt):
 	def eval(self, state={}):
 		while self.condition.eval(state): 
 			self.whileBody.eval(state)
+		return state
+
+class Skip(Stmt):
+	def __init__(self):
+		pass
+	def __str__(self):
+		return "Skip"
+	def __repr__(self):
+		return "Skip()"
+	def eval(self, state={}):
+		return state
 
 
