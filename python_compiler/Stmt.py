@@ -52,14 +52,6 @@ class While(Stmt):
 		return "While( %s, %s )" %(str(self.condition), str(self.whileBody))
 	def eval(self, state={}):
 		while self.condition.eval(state): 
-			self.whileBody.eval(state) 
-
-class Skip(Stmt):
-	def __str__(self):
-		return "skip"
-	def __repr__(self):
-		return "Skip"
-	def eval(self, state={}):
-		continue
+			self.whileBody.eval(state)
 
 
