@@ -1,30 +1,15 @@
-from Aexp import *
-from Bexp import *
+#from Aexp import *
+#from Bexp import *
 from Stmt import *
 from utils import *
+from Exp import *
 
-'''
-tres = Numeral(3)
-dos = Numeral(2)
-suma = Sum(tres,dos)
-uno = Numeral(1)
-cuatro = Numeral(4)
-suma2 = Sum(uno,cuatro)
-igual = Equals(suma, suma2)
-notigual = Not(igual)
-print(repr(igual))
-print(igual)
-print(igual.eval())
-print(repr(notigual))
-print(notigual)
-print(notigual.eval())
-'''
 
-# If then else stmt test
-
-testMessage("If then else stmt test")
+### If then else stmt test
 
 state = {}
+
+testMessage(state, "If then else stmt test")
 
 toTest = Variable("toTest")
 testPassed = Variable("testPassed")
@@ -37,7 +22,7 @@ assignation2.eval(state)
 
 condition = Equals(toTest, Numeral(1))
 
-ifThenElse = IfThenElse(condition, Assign(testPassed, TruthValue(True)), Assign(testPassed, TruthValue(False)))
+ifThenElse = IfThenElse(condition, Block([Assign(testPassed, TruthValue(True))]), Block([Assign(testPassed, TruthValue(False))]))
 
 print(assignation1)
 print(repr(ifThenElse))
@@ -46,13 +31,15 @@ ifThenElse.eval(state)
 
 assert testPassed.eval(state) == True
 
-testMessage("Test passed, testPassed = True")
+testMessage(state, "Test passed, testPassed = True")
 
-# While stmt test
 
-testMessage("While stmt test")
+
+### While stmt test
 
 state = {}
+
+testMessage(state, "While stmt test")
 
 contador = Variable("times")
 assignation = Assign(contador, Numeral(10))
@@ -60,9 +47,9 @@ assignation.eval(state)
 
 repeatCondition = Not(Lte(contador, Numeral(0)))
 
-diff1 = Assign(contador, Diff(contador, Numeral(1)))
+whileBlock = Block([Assign(contador, Diff(contador, Numeral(1)))])
 
-repeat = While(repeatCondition, diff1)
+repeat = While(repeatCondition, whileBlock)
 
 print(assignation)
 print(repr(repeat))
@@ -70,4 +57,82 @@ repeat.eval(state)
 
 assert contador.eval(state) == 0
 
-testMessage("Test passed, times = 0")
+testMessage(state, "Test passed, times = 0")
+
+
+
+### Fib test with temp variable new block scope
+
+state = {}
+
+testMessage(state, "Fib test with temp variable new block scope")
+
+a = Variable("a")
+b = Variable("b")
+n = Variable("n")
+
+assignation = Assign(a, Numeral(0))
+assignation.eval(state)
+
+assignation = Assign(b, Numeral(1))
+assignation.eval(state)
+
+assignation = Assign(n, Numeral(10))
+assignation.eval(state)
+
+
+repeatCondition = Not(Lte(n, Numeral(1)))
+diff = Assign(n, Diff(n, Numeral(1)))
+copyTemp = Assign(Variable("temp"), a)
+swap = Assign(a, b)
+calculus = Assign(b, Sum(Variable("temp"), b))
+
+whileBlock = Block([copyTemp, swap, calculus, diff])
+repeat = While(repeatCondition, whileBlock)
+
+print(repr(repeat))
+repeat.eval(state)
+
+assert b.eval(state) == 55
+
+testMessage(state, "Test passed, Fib = 55")
+
+
+
+### Fib test function
+
+state = {}
+
+testMessage(state, "Fib test function")
+
+a = Variable("a")
+b = Variable("b")
+n = Variable("n")
+
+assignation = Assign(a, Numeral(0))
+assignation.eval(state)
+
+assignation = Assign(b, Numeral(1))
+assignation.eval(state)
+
+assignation = Assign(n, Numeral(10))
+assignation.eval(state)
+
+
+repeatCondition = Not(Lte(n, Numeral(1)))
+diff = Assign(n, Diff(n, Numeral(1)))
+copyTemp = Assign(Variable("temp"), a)
+swap = Assign(a, b)
+calculus = Assign(b, Sum(Variable("temp"), b))
+
+whileBlock = Block([copyTemp, swap, calculus, diff])
+repeat = While(repeatCondition, whileBlock)
+
+fibFunction = FunctionDef("fib", ["n"], Block([repeat]))
+fibFunction.eval(state)
+
+fibFunctionCall = FunctionCall("fib", [n])
+
+assert fibFunctionCall.eval(state) == 55
+
+testMessage(state, "Test passed, Fib = 55")
