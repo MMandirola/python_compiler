@@ -36,7 +36,6 @@ class Sum(Exp):
 		return "Adition( %s , %s )" % (repr(self.left),repr(self.right))
 	def eval(self, state={}):
 		leftEval = self.left.eval(state)
-
 		if(type(leftEval) != int): 
 			raise Exception(repr(self) + " Bad left Sum value type") 
 		
@@ -177,20 +176,17 @@ class FunctionCall(Exp):
 		return "FunctionCall( %s, %s )" % (repr(self.name), repr(self.args))
 	def eval(self, state):
 		function = state[self.name]
-
-		##if(type(function) != FunctionDef):
-		#	raise Exception(repr(self), "Variable is not a function")
+		if(type(function[1]) != Block):
+			raise Exception(repr(self), "Variable is not a function")
 
 		functionDefArgs = function[0]
-
 		if(len(functionDefArgs) != len(self.args)):
 			raise Exception(repr(self), "Invalid function arguments amount")
-
 		argsEval = [x.eval(state) for x in self.args]
 		namedArgs = dict(zip(functionDefArgs, argsEval))
 
 		namedArgs['result'] = None
-
+		print (namedArgs)
 		functionBlock = function[1]
 
 		functionBlock.eval(namedArgs)

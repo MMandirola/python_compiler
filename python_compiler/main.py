@@ -105,22 +105,28 @@ state = {}
 
 testMessage(state, "Fib test function")
 
-a = Variable("a")
-b = Variable("b")
+# 
 n = Variable("n")
-
-assignation = Assign(a, Numeral(0))
-assignation.eval(state)
-
-assignation = Assign(b, Numeral(1))
-assignation.eval(state)
 
 assignation = Assign(n, Numeral(10))
 assignation.eval(state)
 
 
-repeatCondition = Not(Lte(n, Numeral(1)))
-diff = Assign(n, Diff(n, Numeral(1)))
+a = Variable("a")
+b = Variable("result")
+cant = Variable("n")
+
+assignationa = Assign(a, Numeral(0))
+assignation.eval(state)
+
+assignationb = Assign(b, Numeral(1))
+assignation.eval(state)
+
+
+
+
+repeatCondition = Not(Lte(cant, Numeral(1)))
+diff = Assign(cant, Diff(cant, Numeral(1)))
 copyTemp = Assign(Variable("temp"), a)
 swap = Assign(a, b)
 calculus = Assign(b, Sum(Variable("temp"), b))
@@ -128,10 +134,12 @@ calculus = Assign(b, Sum(Variable("temp"), b))
 whileBlock = Block([copyTemp, swap, calculus, diff])
 repeat = While(repeatCondition, whileBlock)
 
-fibFunction = FunctionDef("fib", ["n"], Block([repeat]))
+fibFunction = FunctionDef("fib", ["n"], Block([assignationa, assignationb, repeat]))
 fibFunction.eval(state)
 
 fibFunctionCall = FunctionCall("fib", [n])
+
+print(fibFunction)
 
 assert fibFunctionCall.eval(state) == 55
 
