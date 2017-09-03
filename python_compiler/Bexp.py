@@ -36,6 +36,17 @@ class Lte(Bexp):
 	def eval(self, state={}):
 		return self.left.eval(state) <= self.right.eval(state)
 
+class Gte(Bexp):
+	def __init__(self, left, right):
+		self.left = left
+		self.right = right
+	def __str__(self):
+		return "%s >= %s" % (str(self.left), str(self.right))
+	def __repr__(self):
+		return "Gte( %s, %s )" % (repr(self.left), repr(self.right))
+	def eval(self, state={}):
+		return self.left.eval(state) >= self.right.eval(state)
+
 class Not(Bexp):
 	def __init__(self, value):
 		self.value = value

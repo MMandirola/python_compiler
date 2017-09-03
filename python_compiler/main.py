@@ -20,7 +20,7 @@ print(notigual)
 print(notigual.eval())
 '''
 
-# If then else stmt test
+# If then stmt test
 
 testMessage("If then else stmt test")
 
@@ -37,37 +37,77 @@ assignation2.eval(state)
 
 condition = Equals(toTest, Numeral(1))
 
-ifThenElse = IfThenElse(condition, Assign(testPassed, TruthValue(True)), Assign(testPassed, TruthValue(False)))
+ifThen = IfThen(condition, Assign(testPassed, TruthValue(True)) )
 
 print(assignation1)
-print(repr(ifThenElse))
+print(repr(ifThen))
 
-ifThenElse.eval(state)
+ifThen.eval(state)
 
 assert testPassed.eval(state) == True
 
 testMessage("Test passed, testPassed = True")
 
-# While stmt test
-
-testMessage("While stmt test")
+# Gte Test
 
 state = {}
 
-contador = Variable("times")
-assignation = Assign(contador, Numeral(10))
-assignation.eval(state)
+a = Variable("a")
+b = Variable("b")
 
-repeatCondition = Not(Lte(contador, Numeral(0)))
+assignation1 = Assign(a, Numeral(1))
+assignation1.eval(state)
 
-diff1 = Assign(contador, Diff(contador, Numeral(1)))
+assignation2 = Assign(b, Numeral(4))
+assignation2.eval(state)
 
-repeat = While(repeatCondition, diff1)
+condition = Gte(a, b)
 
-print(assignation)
-print(repr(repeat))
-repeat.eval(state)
+print(repr(condition))
 
-assert contador.eval(state) == 0
+assert condition.eval(state) == False
 
-testMessage("Test passed, times = 0")
+testMessage("Test passed, condition.eval(state) == False")
+########################################
+
+state = {}
+
+a = Variable("a")
+b = Variable("b")
+
+assignation1 = Assign(a, Numeral(4))
+assignation1.eval(state)
+
+assignation2 = Assign(b, Numeral(1))
+assignation2.eval(state)
+
+condition = Gte(a, b)
+
+print(repr(condition))
+
+assert condition.eval(state) == True
+
+testMessage("Test passed, condition.eval(state) == True")
+
+#Division Test
+
+a = Numeral(4)
+b = Numeral(2)
+division = Division(a,b)
+
+print (repr(division))
+assert division.eval(state) == 2
+
+testMessage("Test passed, division.eval(state) == 2")
+########################################
+state = {}
+a = Numeral(4)
+b = Numeral(0)
+division = Division(a,b)
+
+print (repr(division))
+
+try:
+	division.eval(state)
+except Exception:
+	testMessage("Test passed, NO division by zero")

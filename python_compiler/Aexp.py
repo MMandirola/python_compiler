@@ -46,6 +46,17 @@ class Mul(Aexp):
 	def eval(self, state={}):
 		return self.left.eval(state) * self.right.eval(state)
 
+class Division(Aexp):
+	def __init__(self, left, right):
+		self.left = left
+		self.right = right
+	def __str__(self):
+		return "%s / %s" % (self.left, self.right)
+	def __repr__(self):
+		return "Division( %s , %s )" % (repr(self.left),repr(self.right))
+	def eval(self, state={}):
+		return self.left.eval(state) / self.right.eval(state)
+
 class Diff(Aexp):
 	def __init__(self, left, right):
 		self.left = left

@@ -66,4 +66,17 @@ class Skip(Stmt):
 	def eval(self, state={}):
 		return state
 
+class IfThen(Stmt):
+	def __init__(self, condition, ifBody):
+		self.condition = condition
+		self.ifBody = ifBody
+	def __str__(self):
+		return "if %s then %s " %(str(self.condition), str(self.ifBody))
+	def __repr__(self):
+		return "If( %s, %s)" %(repr(self.condition), repr(self.ifBody))
+	def eval(self, state={}):
+		if self.condition.eval(state): 
+			self.ifBody.eval(state) 
+		return state
+
 
